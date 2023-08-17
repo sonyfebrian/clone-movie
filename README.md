@@ -1,3 +1,7 @@
+# Movie List Explorer
+
+This project was created using Vite, And React . It also utilizes https://developer.themoviedb.org/docs API and Tailwind for UI library and styling.
+
 ## Initialize project
 
 Before running this application, `npm install` to install the necessary dependencies.

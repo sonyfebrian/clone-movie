@@ -1,45 +1,91 @@
+import Popular from "./pages/PopularMovie";
+import TopRatedMovie from "./pages/TopRatedMovie";
+import PlayingNowMovie from "./pages/PlayingNowMovie";
+import { useState, useEffect } from "react";
+
 function App() {
+  // const [sticky, setSticky] = useState(false);
+  // const [open, setOpen] = useState(false);
+  const menuLinks = [
+    { name: "POPULAR", link: "#popular" },
+    { name: "TOP RATED", link: "#top" },
+    { name: "PLAYING NOW", link: "#playing" },
+  ];
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      // const nav = document.querySelector("nav");
+      window.scrollY > 0;
+    });
+  }, []);
+
+  const handleLinkClick = (event, link) => {
+    event.preventDefault();
+    const target = document.querySelector(link);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  const [query, setQuery] = useState("");
+
   return (
     <>
-      <header className="text-gray-600 body-font">
+      <header className="text-gray-600 body-font ">
         <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-          <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-            </svg>
-            <span className="ml-3 text-xl">Tailblocks</span>
-          </a>
-          <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400 flex flex-wrap items-center text-base justify-center">
-            <a className="mr-5 hover:text-gray-900">First Link</a>
-            <a className="mr-5 hover:text-gray-900">Second Link</a>
-            <a className="mr-5 hover:text-gray-900">Third Link</a>
-            <a className="mr-5 hover:text-gray-900">Fourth Link</a>
+          <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4  flex flex-wrap items-center text-base justify-center">
+            <ul className="flex items-center gap-1 py-2 text-lg">
+              <li className="flex text-3xl items-center font-semibold  mb-4 md:mb-0">
+                <span className="ml-3 text-xl">Netplix</span>
+              </li>
+              {menuLinks?.map((menu, i) => (
+                <li key={i} className="px-6 hover:text-cyan-600">
+                  <a
+                    href={menu?.link}
+                    onClick={(e) => handleLinkClick(e, menu?.link)}
+                  >
+                    {menu?.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </nav>
-          <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-            Button
-            <svg
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="w-4 h-4 ml-1"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-          </button>
+
+          <label
+            htmlFor="default-search"
+            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300"
+          >
+            Search
+          </label>
+          <div className="relative">
+            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+              <svg
+                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="default-search"
+              className="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search Movie..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
         </div>
-      </header>
+      </header>{" "}
+      <Popular query={query} />
+      <TopRatedMovie query={query} />
+      <PlayingNowMovie query={query} />
     </>
   );
 }
